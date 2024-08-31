@@ -89,6 +89,10 @@ def status_idle_animation_step(step):
     status_npix.write()
     return (step + 1) % 256
 
+def set_yellow_led():
+    """Set the status LEDs to green."""
+    set_status_leds((255, 255, 0))  # Yellow
+
 def flash_red_step(step):
     """Flash the LEDs red to indicate an error."""
     now = time.ticks_ms()
@@ -130,8 +134,7 @@ while True:
         animation_state = 'idle'
         animation_step = 0
     elif current_state == 'Printing':
-        set_green_led()
-        set_leds_based_on_temp(bed_temp)
+        set_yellow_led()
         animation_state = None
     elif current_state == 'Error':
         if time.ticks_diff(now, animation_start_time) > 500:
